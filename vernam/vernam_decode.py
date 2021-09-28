@@ -1,3 +1,5 @@
+from string import ascii_letters
+
 with open('bin_output.txt') as f:
     encrypted = f.read()
 
@@ -31,10 +33,32 @@ for key in range(1, 21):
     
 lenght = int(input("Print the len of the key: "))
 
+#letters in the text but mod key
+mod_keys = {}
+test_keys = {}
+for i in range(lenght):
+    mod_keys[i] = []
+    test_keys[i] = []
 
-one_letter_enc = []
-for i in range(0, len(encrypted_ord)//lenght, lenght):
-    
-    one_letter_enc.append(encrypted[i])
 
-print(letters)
+#раскидал буквы по длине одинаковым символам ключа 
+for i in range(len(encrypted)):
+    mod_keys[i%lenght].append(encrypted_ord[i])   
+
+key = []
+
+#для каждого ключа
+for k in mod_keys.keys():
+    #для каждой буквы
+    for i in ascii_letters:
+        #для каждого значения списка в ключа
+        for j in range(len(mod_keys[k])):
+            if mod_keys[k][j] ^ ord(i) < 13 or mod_keys[k][j] >32:
+                test_keys[k].append(mod_keys[k][j] ^ ord(i))
+                key.append(i)
+            else:
+                key.remove(i)
+                break
+
+
+print(key)
